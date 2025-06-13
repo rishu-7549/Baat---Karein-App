@@ -6,27 +6,12 @@ import cors from "cors";
 
 connectDB();
 
-// app.use(
-//   cors({
-//     origin: [process.env.CLIENT_URL],
-//     credentials: true,
-//   })
-// );
-
-const allowedOrigins = [process.env.CLIENT_URL];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps, curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [process.env.CLIENT_URL],
+    credentials: true,
+  })
+);
 
 
 app.use((req, res, next) => {
@@ -37,19 +22,15 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-
-
-
-
-
-
-
 app.use(express.json());
 app.use(cookieParser());
 
 const PORT = process.env.PORT || 5000;
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 
 // routes
 import userRoute from "./routes/user.route.js";
